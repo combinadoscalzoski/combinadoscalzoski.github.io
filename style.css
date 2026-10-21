@@ -1,0 +1,254 @@
+:root{--bg:#10141d;--panel:#18202e;--line:#2c3a55;--text:#f6f1dc;--muted:#a9b3c7;--red:#e03131;--navy:#14346e;--cream:#f6f1dc;--teal:#5fb8b4;--gold:#f6c21c;
+color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141d}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f1dc;--panel:#ffffff;--line:#c9c1a0;--text:#14264d;--muted:#4b5a7a;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f6f1dc;--panel:#fff;--line:#c9c1a0;--text:#14264d;--muted:#4b5a7a;color-scheme:light}
+:root[data-theme="dark"]{--bg:#10141d}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 Nunito,system-ui,sans-serif;overflow-x:hidden}
+body.lock{overflow:hidden}
+h1,h2,h3{font-family:'Lilita One',Impact,sans-serif;font-weight:400;line-height:1.1;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ---------- Pantalla de carga ---------- */
+#loader{position:fixed;inset:0;z-index:100;background:#0c1018;display:grid;place-items:center;text-align:center;color:#f6f1dc;transition:opacity .7s,visibility .7s;cursor:pointer;padding:24px}
+#loader.out{opacity:0;visibility:hidden}
+.burst{position:absolute;inset:-30%;background:repeating-conic-gradient(from 0deg,#1f4f57 0 7.5deg,#0c1018 7.5deg 15deg);opacity:.55;animation:spin 60s linear infinite;mask:radial-gradient(circle,#000 0,transparent 62%);-webkit-mask:radial-gradient(circle,#000 0,transparent 62%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld{position:relative;width:min(380px,86vw)}
+.ld img{width:100%;border-radius:50%;display:block;animation:bob 2.4s ease-in-out infinite;box-shadow:0 0 60px #e0313166}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-1.5deg)}}
+.bar{margin:28px auto 10px;height:10px;border:2px solid var(--gold);border-radius:99px;padding:2px;background:#0006}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--red),var(--gold))}
+.pct{font:400 15px 'Lilita One';color:var(--gold);display:flex;justify-content:space-between}
+.tip{min-height:3.2em;margin-top:14px;color:#cfd6e6;font-size:15px}
+.enter{margin-top:6px;font:400 22px 'Lilita One';color:var(--gold);letter-spacing:.04em;opacity:0;animation:none}
+.ready .enter{opacity:1;animation:blink 1.4s ease-in-out infinite}
+.ready .bar,.ready .pct{opacity:.35}
+@keyframes blink{50%{opacity:.35}}
+
+/* ---------- Cabecera ---------- */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:2px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:400 22px 'Lilita One'}
+.brand img{width:42px;height:42px;border-radius:50%}
+.nav nav{display:flex;gap:22px}
+.nav nav a{text-decoration:none;font-weight:800;font-size:15px;color:var(--muted)}
+.nav nav a:hover{color:var(--gold)}
+@media(max-width:640px){.nav nav{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;padding:56px 0 90px;background:#0e1830;color:#f6f1dc}
+.hero::before{content:"";position:absolute;inset:-40%;background:repeating-conic-gradient(from 0deg at 72% 45%,#1a5d62 0 6deg,#0e1830 6deg 12deg);opacity:.55}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(40px,7vw,76px);text-shadow:4px 4px 0 var(--red)}
+.hero p{max-width:34ch;color:#dfe5f2;font-size:19px;margin:18px 0 26px}
+.btn{display:inline-block;background:var(--gold);color:#241a00;text-decoration:none;font:400 20px 'Lilita One';padding:12px 28px;border-radius:12px;border:3px solid #241a00;box-shadow:0 5px 0 #241a00;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #241a00}
+.btn.red{background:var(--red);color:#fff;border-color:#4a0b0b;box-shadow:0 5px 0 #4a0b0b}
+.hero img{width:100%;max-width:400px;justify-self:center;border-radius:50%;box-shadow:0 20px 60px #0008}
+.hero svg{position:absolute;left:0;bottom:-1px;width:100%;height:40px;display:block}
+@media(max-width:760px){.hero .wrap{grid-template-columns:1fr;text-align:center}.hero p{margin-inline:auto}.hero img{max-width:260px;order:-1}}
+
+/* ---------- Secciones ---------- */
+section{padding:70px 0}
+.title{text-align:center;margin-bottom:34px}
+.title h2{font-size:clamp(32px,5vw,48px)}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;color:var(--gold)}
+.orn::before,.orn::after{content:"";height:2px;width:min(120px,22vw);background:linear-gradient(90deg,transparent,var(--gold))}
+.orn::after{transform:scaleX(-1)}
+.orn b{width:11px;height:11px;background:var(--gold);transform:rotate(45deg);outline:2px solid var(--gold);outline-offset:3px}
+
+/* Carta con pestañas (estilo "noticias") */
+.tabs{display:flex;gap:8px;overflow-x:auto;justify-content:center;margin-bottom:26px;padding-bottom:6px}
+.tab{flex:none;font:400 18px 'Lilita One';color:var(--muted);background:transparent;border:2px solid var(--line);border-radius:99px;padding:8px 22px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;position:relative}
+.card.hot::after{content:"Favorito";position:absolute;top:-12px;right:16px;background:var(--gold);color:#241a00;font:400 14px 'Lilita One';padding:2px 12px;border-radius:99px}
+.card h3{font-size:24px}
+.card p{color:var(--muted);font-size:15px;margin:8px 0 16px;flex:1}
+.row{display:flex;align-items:center;justify-content:space-between}
+.price{font:400 26px 'Lilita One';color:var(--gold)}
+:root[data-theme="light"] .price,.lightfix{color:#b3260f}
+.add{font:400 16px 'Lilita One';background:var(--navy);color:#fff;border:0;border-radius:10px;padding:8px 16px;cursor:pointer}
+.add:hover{background:var(--red)}
+
+/* Nosotros */
+.about{background:var(--navy);color:#f6f1dc}
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+.about p{margin:0 0 14px;max-width:52ch}
+.stats{display:grid;gap:14px}
+.stat{border:2px solid #f6c21c88;border-radius:16px;padding:16px 20px;display:flex;gap:16px;align-items:center;background:#0003}
+.stat b{font:400 20px 'Lilita One';color:var(--gold)}
+@media(max-width:760px){.about .wrap{grid-template-columns:1fr}}
+
+/* Contacto */
+.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:24px}
+.box h3{font-size:26px;margin-bottom:10px}
+.box p{margin:4px 0;color:var(--muted)}
+@media(max-width:760px){.contact .wrap{grid-template-columns:1fr}}
+footer{padding:26px 0 110px;text-align:center;color:var(--muted);font-size:14px;border-top:2px solid var(--line)}
+
+/* Barra de pedido */
+#cart{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;max-width:560px;margin:auto;background:var(--red);color:#fff;border:3px solid #4a0b0b;border-radius:16px;padding:10px 12px 10px 18px;display:none;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 8px 30px #0008}
+#cart.on{display:flex}
+#cart span{font:400 19px 'Lilita One'}
+#cart button{font:400 17px 'Lilita One';border:2px solid #241a00;background:var(--gold);color:#241a00;border-radius:10px;padding:8px 16px;cursor:pointer}
+#cart .clr{background:transparent;color:#fff;border-color:#fff8;padding:8px 12px}
+@media(prefers-reduced-motion:reduce){.burst,.ld img,.ready .enter,.hero::before{animation:none}html{scroll-behavior:auto}}
+
+/* ===== Fondo animado ===== */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--bg)}
+.bg::before{content:"";position:absolute;inset:-60%;background:repeating-conic-gradient(color-mix(in srgb,var(--teal) 24%,transparent) 0 7.5deg,transparent 7.5deg 15deg);animation:spin 100s linear infinite}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,transparent 20%,var(--bg) 85%)}
+.b{position:absolute;bottom:-60px;border-radius:50%;border:2px solid #ffffff55;background:radial-gradient(circle at 30% 30%,#ffffff66,#fff0);animation:rise linear infinite;z-index:1}
+@keyframes rise{to{transform:translate(var(--dx),-115vh)}}
+.f{position:absolute;left:-90px;z-index:1;opacity:.4;animation:swim linear infinite}
+.f span{display:inline-block;transform:scaleX(-1);animation:wob 1.6s ease-in-out infinite}
+@keyframes swim{to{transform:translateX(calc(100vw + 180px))}}
+@keyframes wob{50%{transform:scaleX(-1) translateY(-9px) rotate(6deg)}}
+.wave{position:absolute;left:0;right:0;bottom:0;height:70px;z-index:1;background:radial-gradient(circle at 25px 0,transparent 24px,color-mix(in srgb,var(--navy) 60%,transparent) 25px) 0 0/50px 50px repeat-x;animation:wv 7s linear infinite}
+.wave.w2{height:54px;opacity:.6;animation-duration:11s;animation-direction:reverse}
+@keyframes wv{to{background-position-x:-100px}}
+.hero{background:transparent;color:var(--text)}.hero::before,.hero svg{display:none}.hero p{color:var(--muted)}
+.card,.box{background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(4px)}
+.about{background:color-mix(in srgb,var(--navy) 82%,transparent)}
+a.card{text-decoration:none;color:inherit;transition:transform .2s,border-color .2s}a.card:hover{transform:translateY(-6px);border-color:var(--gold)}
+a.card .em{font-size:44px;line-height:1;margin-bottom:10px}
+.nav nav a[aria-current]{color:var(--gold)}
+.sub{font-size:30px;margin:34px 0 16px}.sub:first-child{margin-top:0}
+.phead{padding:46px 0 10px;text-align:center}.phead h1{font-size:clamp(38px,7vw,64px);text-shadow:3px 3px 0 var(--red)}.phead p{color:var(--muted);max-width:50ch;margin:12px auto 0}
+@media(max-width:640px){.nav nav{display:flex;gap:14px;overflow-x:auto}.brand span{display:none}}
+@media(prefers-reduced-motion:reduce){.bg::before,.b,.f,.f span,.wave{animation:none}}
+
+/* Carrito desplegable */
+#cart{flex-direction:column;align-items:stretch;gap:8px;padding:10px 12px}
+#cart .crow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#cart #arrow{background:transparent;color:#fff;border:2px solid #fff9;border-radius:50%;width:38px;height:38px;padding:0;font-size:15px;flex:none;transition:transform .25s}
+#cart #arrow[aria-expanded="true"]{transform:rotate(180deg)}
+#clist{max-height:40vh;overflow-y:auto;background:#0003;border-radius:10px;padding:4px 12px}
+.ci{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dashed #fff5}
+.ci:last-child{border-bottom:0}
+#cart .ci span{font:600 16px Nunito,sans-serif}
+#cart .q{width:30px;height:30px;padding:0;border-radius:50%;background:#fff;color:#4a0b0b;border:2px solid #4a0b0b;font-size:18px;line-height:1}
+@media(prefers-reduced-motion:reduce){#cart #arrow{transition:none}}
+
+/* Corrección de capas: fondo siempre detrás del contenido */
+.bg{z-index:0;pointer-events:none}
+main,footer{position:relative;z-index:2}
+#cart{z-index:50}
+
+/* ===== Extras ===== */
+.hero img{animation:bob 4s ease-in-out infinite}
+.open{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;border:2px solid var(--line);border-radius:99px;padding:4px 14px;background:color-mix(in srgb,var(--panel) 80%,transparent)}
+.open::before{content:"";width:10px;height:10px;border-radius:50%;background:#3ddc84;animation:pulse 1.6s ease-in-out infinite}
+.open.off::before{background:var(--red);animation:none}
+@keyframes pulse{50%{box-shadow:0 0 0 7px #3ddc8422;transform:scale(1.15)}}
+.marq{overflow:hidden;background:var(--red);border-block:3px solid #4a0b0b;transform:rotate(-1deg);margin:10px -10px 0;color:#fff;font:400 20px 'Lilita One'}
+.track{display:flex;width:max-content;animation:mq 28s linear infinite}
+.track span{padding:10px 28px;white-space:nowrap}
+@keyframes mq{to{transform:translateX(-50%)}}
+.card:not(.step):hover{border-color:var(--gold);box-shadow:0 10px 34px #f6c21c26}
+.dem{display:inline-block;margin-right:8px}
+.step .num{width:46px;height:46px;border-radius:50%;background:var(--gold);color:#241a00;font:400 26px/46px 'Lilita One';text-align:center;margin-bottom:12px;border:3px solid #241a00}
+.stars{color:var(--gold);font-size:22px;letter-spacing:3px}
+.box b{color:var(--teal);font-size:14px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+#toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:60;background:var(--gold);color:#241a00;font:400 17px 'Lilita One';padding:8px 20px;border-radius:99px;border:3px solid #241a00;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#cart.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.05)}}
+.wafab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;border:3px solid #0b5a2a;display:grid;place-items:center;box-shadow:0 6px 20px #0006;text-decoration:none;font-size:28px;transition:transform .2s}
+.wafab:hover{transform:scale(1.1)}
+#cart.on ~ .wafab{display:none}
+@media(prefers-reduced-motion:reduce){.hero img,.track,.open::before,#cart.bump{animation:none}.rv{opacity:1;transform:none;transition:none}}
+
+/* Formulario de pedido */
+#co{position:fixed;inset:0;z-index:80;background:#000b;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+#co[hidden]{display:none}
+.cobox{background:var(--panel);color:var(--text);border:3px solid var(--gold);border-radius:20px;padding:24px;width:min(460px,100%);display:grid;gap:12px;margin:auto}
+.cobox h3{font-size:30px}
+.cobox label{display:grid;gap:4px;font-weight:800;font-size:14px;color:var(--muted)}
+.cobox label[hidden]{display:none}
+.cobox input,.cobox select{font:600 16px Nunito,sans-serif;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--text);width:100%}
+#cosum{font-size:14px;color:var(--muted)}
+#comsg{margin:0;min-height:1.2em;color:var(--gold);font-weight:800;font-size:14px}
+.coact{display:flex;gap:10px;justify-content:space-between}
+.coact .btn{font-size:17px;padding:10px 18px}
+
+.yqr{width:min(260px,100%);display:block;margin:4px auto;border-radius:14px;background:#fff;padding:8px;border:3px solid #742284}
+.cobox p{margin:0}
+
+.solo{grid-template-columns:minmax(0,440px);justify-content:center}
+.solo .card h3{font-size:34px}.solo .price{font-size:34px}
+
+/* Tarjeta de producto con foto */
+.prod{padding:0;overflow:hidden}
+.prod .pic{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#0003}
+.prod .pbody{padding:22px;display:flex;flex-direction:column;flex:1}
+.prod .pbody p{font-size:16px}
+.prod.hot::after{top:12px;right:12px}
+.add.buy{width:100%;font-size:21px;padding:13px 16px;background:var(--red);border-radius:12px;border:3px solid #4a0b0b;box-shadow:0 4px 0 #4a0b0b;transition:transform .1s,box-shadow .1s}
+.add.buy:hover{background:#c92a2a}
+.add.buy:active{transform:translateY(3px);box-shadow:0 1px 0 #4a0b0b}
+.solo .prod .pbody h3{font-size:32px}
+
+/* Producto a pantalla completa */
+.full{display:block}
+.show{position:relative;min-height:calc(100svh - 64px - env(safe-area-inset-top,0px));display:flex;align-items:center;overflow:hidden;color:#fff;background:#0a0e18}
+.showpic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:zoom 18s ease-in-out infinite alternate}
+@keyframes zoom{to{transform:scale(1.07)}}
+.show::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#0a0e18ee 0%,#0a0e18aa 45%,#0a0e1822 100%),linear-gradient(0deg,#0a0e18aa,transparent 45%)}
+.showtxt{position:relative;z-index:2;padding:clamp(24px,6vw,90px);max-width:700px}
+.showtxt h1{font-size:clamp(54px,10vw,120px);line-height:.95;text-shadow:5px 5px 0 var(--red);margin-bottom:18px}
+.showtxt p{font-size:clamp(18px,2.4vw,24px);margin:0 0 28px;color:#eef1f8;max-width:34ch}
+.show .add.buy{width:auto;font-size:clamp(22px,3vw,30px);padding:16px 36px}
+.show .back{display:inline-block;margin:20px 0 0 4px;color:#fff;font-weight:800;text-decoration:none;border-bottom:2px solid var(--gold)}
+@media(max-width:760px){.show{align-items:flex-end}.show::before{background:linear-gradient(0deg,#0a0e18f2 0%,#0a0e18cc 50%,#0a0e1833 100%)}.showtxt{padding-bottom:110px}}
+@media(prefers-reduced-motion:reduce){.showpic{animation:none}}
+
+/* Opciones de bebida e ingredientes */
+.opts{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+.showtxt .optl{flex-basis:100%;margin:0;font:400 20px 'Lilita One';color:var(--gold)}
+.opts .add.buy{flex:1 1 230px}
+.ing ul{margin:10px 0 0;padding-left:20px;color:var(--muted)}.ing li{margin:5px 0}
+.ing h3{font-size:28px}
+
+/* Botón principal y ventana para elegir bebida */
+.cta{font:400 clamp(22px,3vw,30px) 'Lilita One';background:var(--red);color:#fff;border:3px solid #4a0b0b;border-radius:12px;box-shadow:0 4px 0 #4a0b0b;padding:16px 36px;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.cta:hover{background:#c92a2a}.cta:active{transform:translateY(3px);box-shadow:0 1px 0 #4a0b0b}
+#dr{position:fixed;inset:0;z-index:90;background:#000b;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+#dr[hidden]{display:none}
+.drbox{position:relative;background:var(--panel);color:var(--text);border:3px solid var(--gold);border-radius:20px;padding:26px;width:min(640px,100%);margin:auto}
+.drbox h3{font-size:32px;padding-right:30px}.drbox p{margin:6px 0 18px;color:var(--muted)}
+.drx{position:absolute;top:10px;right:12px;background:transparent;border:0;color:var(--text);font-size:24px;cursor:pointer}
+.drgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.drgrid{grid-template-columns:1fr}}
+.dropt{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--bg);color:var(--text);border:2px solid var(--line);border-radius:16px;padding:0;overflow:hidden;cursor:pointer;font:inherit;transition:border-color .2s,transform .2s}
+.dropt:hover{border-color:var(--gold);transform:translateY(-3px)}
+.dropt img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#0003;display:block}
+.dropt b{font:400 24px 'Lilita One';padding:6px 14px 0}
+.dropt span{padding:0 14px;color:var(--muted);font-size:15px;flex:1}
+.dropt em{font-style:normal;margin:8px 14px 14px;background:var(--red);color:#fff;font:400 18px 'Lilita One';text-align:center;padding:9px;border-radius:10px}
+
+/* Tarjeta ancha del combinado en la portada */
+.wide{display:grid;grid-template-columns:1.15fr 1fr;min-height:440px}
+.wide .pic{height:100%;min-height:320px;aspect-ratio:auto}
+.wide .pbody{padding:clamp(24px,4vw,52px);justify-content:center}
+.wide h3{font-size:clamp(36px,5vw,56px);margin-bottom:8px}
+.wide p{font-size:clamp(17px,2vw,20px);margin:0 0 14px;flex:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.chips span{border:2px solid var(--gold);color:var(--gold);border-radius:99px;padding:4px 14px;font-weight:800;font-size:15px}
+.wrow{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.wide .price{font-size:clamp(40px,6vw,56px)}
+.wide .btn{font-size:22px;padding:14px 34px}
+.wide:hover .btn{background:#c92a2a}
+@media(max-width:760px){.wide{grid-template-columns:1fr}.wide .pic{height:auto;min-height:0;aspect-ratio:16/10}}
+
+.wide .price small{font:800 16px Nunito,sans-serif;color:var(--muted)}
