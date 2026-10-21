@@ -1,12 +1,12 @@
-const WHATSAPP="51953887354"; // cambia por tu número con código de país
+const WHATSAPP="51900000000"; // cambia por tu número con código de país
 // Precios: el combinado cuesta 12 y cada bebida 3 (en el carrito va junto: 15). Cámbialos aquí
 const PRECIO_COMBINADO=12,PRECIO_BEBIDA=3;
 // Tu único producto: el combinado. Al agregarlo al carrito el cliente elige la bebida.
 // Formato: [nombre en el carrito, descripción, precio, favorito, foto del combinado, texto, bebida, descripción de la bebida, foto de la bebida]
 // Los mismos nombres y precios van en api/_menu.js
 const MENU={"Combinado":[
-["Combinado Chapala con chicha morada","Ceviche de perico con tallarines al ají amarillo y chicha morada.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"img/combinado.jpg","Con chicha morada","Chicha morada","Bien helada y refrescante, para acompañar tu combinado.","img/chicha.jpg"],
-["Combinado Chapala con maracuyá","Ceviche de perico con tallarines al ají amarillo y maracuyá.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"img/combinado.jpg","Con maracuyá","Maracuyá","Jugo de maracuyá, fresco y con su toque ácido.","img/maracuya.jpg"]]};
+["Combinado Chapala con chicha morada","Ceviche de perico con tallarines al ají amarillo y chicha morada.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"combinado.jpg","Con chicha morada","Chicha morada","Bien helada y refrescante, para acompañar tu combinado.","chicha.jpg"],
+["Combinado Chapala con maracuyá","Ceviche de perico con tallarines al ají amarillo y maracuyá.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"combinado.jpg","Con maracuyá","Maracuyá","Jugo de maracuyá, fresco y con su toque ácido.","maracuya.jpg"]]};
 const $=s=>document.querySelector(s);
 let cart={};try{cart=JSON.parse(localStorage.getItem("chapala-cart")||"{}")}catch(e){}
 const save=()=>{try{localStorage.setItem("chapala-cart",JSON.stringify(cart))}catch(e){}};
@@ -42,14 +42,15 @@ function upd(){const k=Object.keys(cart),n=k.reduce((a,x)=>a+cart[x].n,0),t=k.re
 $("#arrow").onclick=()=>{open=!open;upd()};
 $("#clist").onclick=e=>{const b=e.target.closest(".q");if(!b)return;const x=b.dataset.x;cart[x].n+=+b.dataset.d;if(cart[x].n<=0)delete cart[x];save();upd()};
 $("#clr").onclick=()=>{cart={};save();upd()};
-$("#send").onclick=()=>{const k=Object.keys(cart),t=k.reduce((a,x)=>a+cart[x].n*cart[x].p,0);const txt="Hola Combinados Chapala, quiero pedir:\n"+k.map(x=>`- ${cart[x].n} x ${x}`).join("\n")+`\nTotal: S/ ${t}`;window.open(`https://wa.me/953887354?text=${encodeURIComponent(txt)}`,"_blank")};
-const wa=$("#wa");if(wa)wa.href=`https://wa.me/953887354`;upd();
+$("#send").onclick=()=>{const k=Object.keys(cart),t=k.reduce((a,x)=>a+cart[x].n*cart[x].p,0);const txt="Hola Combinados Chapala, quiero pedir:\n"+k.map(x=>`- ${cart[x].n} x ${x}`).join("\n")+`\nTotal: S/ ${t}`;window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`,"_blank")};
+const wa=$("#wa");if(wa)wa.href=`https://wa.me/${WHATSAPP}`;upd();
 
 /* Pantalla de carga (solo inicio, una vez por visita) */
 const L=$("#loader");
+addEventListener("pageshow",e=>{if(e.persisted&&L)location.reload()});
 if(L){let seen=false;try{seen=sessionStorage.getItem("chapala-in")}catch(e){}
 const open=()=>{L.classList.add("out");document.body.classList.remove("lock");try{sessionStorage.setItem("chapala-in","1")}catch(e){}};
-if(seen){L.remove();document.body.classList.remove("lock")}else{
+{
 const TIPS=["Un buen combinado se comparte entre dos.","Pide por WhatsApp y evita la cola.","El pescado se elige fresco cada mañana.","¿Eres de picante? Pide tu leche de tigre extra."];
 const f=$("#fill"),p=$("#pct"),t=$("#tip"),m=$("#msg");let v=0,i=0;t.textContent=TIPS[0];const ti=setInterval(()=>t.textContent=TIPS[++i%TIPS.length],1600);
 const iv=setInterval(()=>{v=Math.min(100,v+Math.random()*7+2);f.style.width=v+"%";p.textContent=Math.floor(v)+"%";if(v>=100){clearInterval(iv);m.textContent="¡Todo listo!";L.classList.add("ready")}},120);
@@ -67,7 +68,7 @@ if(g)g.addEventListener("click",e=>{const b=e.target.closest(".add");if(!b)retur
  toast.textContent="✔ Agregado: "+MENU[b.dataset.c][b.dataset.i][0];toast.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove("on"),1600);
  bar.classList.remove("bump");void bar.offsetWidth;bar.classList.add("bump")});
 // botón flotante de WhatsApp
-const fab=document.createElement("a");fab.className="wafab";fab.target="_blank";fab.rel="noopener";fab.setAttribute("aria-label","Escribir por WhatsApp");fab.href=`https://wa.me/953887354`;fab.textContent="💬";document.body.append(fab);
+const fab=document.createElement("a");fab.className="wafab";fab.target="_blank";fab.rel="noopener";fab.setAttribute("aria-label","Escribir por WhatsApp");fab.href=`https://wa.me/${WHATSAPP}`;fab.textContent="💬";document.body.append(fab);
 // abierto / cerrado (hora de Lima, 11:00 a 17:00)
 const op=$("#open");if(op){const hr=+new Date().toLocaleString("en-US",{timeZone:"America/Lima",hour:"numeric",hour12:false})%24;
  if(hr>=11&&hr<17)op.textContent="Abierto ahora · hasta las 5:00 pm";else{op.textContent="Cerrado · abrimos a las 11:00 am";op.classList.add("off")}}
@@ -82,10 +83,10 @@ else{const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x
 const API_BASE="";
 // Pon true cuando Culqi apruebe tu cuenta y el servidor esté listo. Mientras sea false, solo se muestra Yape.
 const PAGO_EFECTIVO=false;
-const YAPE_NUMBER="953887354",YAPE_NAME=""; // cambia por tu número y nombre de Yape
+const YAPE_NUMBER="900 000 000",YAPE_NAME="Combinados Chapala"; // cambia por tu número y nombre de Yape
 function yape(j,txt){cart={};save();upd();cf.innerHTML=`<h3>Paga con Yape</h3><p>${j.numero?`Pedido <b>${j.numero}</b> · `:""}Total <b>S/ ${j.total}</b></p><img class="yqr" src="yape-qr.png" alt="Código QR de Yape de Combinados Chapala"><p id="ynum"></p><p>Escanea el QR, paga el monto exacto y toca el botón para enviarnos tu pedido y la captura del pago por WhatsApp.</p><a class="btn" id="ywa" target="_blank" rel="noopener">Enviar pedido y captura por WhatsApp</a><button type="button" class="btn red" onclick="location.reload()">Listo</button>`;
  $("#ynum").textContent=(YAPE_NAME||YAPE_NUMBER)?`Yape: ${[YAPE_NAME,YAPE_NUMBER].filter(Boolean).join(" · ")}`:"";
- $("#ywa").href=`https://wa.me/953887354?text=`+encodeURIComponent(`Hola, ya pagué por Yape${j.numero?" el pedido "+j.numero:""}.\n`+txt+`\nTe envío la captura.`)}
+ $("#ywa").href=`https://wa.me/${WHATSAPP}?text=`+encodeURIComponent(`Hola, ya pagué por Yape${j.numero?" el pedido "+j.numero:""}.\n`+txt+`\nTe envío la captura.`)}
 /* ===== Checkout: datos del cliente, PagoEfectivo y aviso al dueño ===== */
 const co=document.createElement("div");co.id="co";co.hidden=true;
 co.innerHTML=`<form class="cobox" id="coform"><h3>Tu pedido</h3><div id="cosum"></div>
