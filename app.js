@@ -5,8 +5,8 @@ const PRECIO_COMBINADO=12,PRECIO_BEBIDA=3;
 // Formato: [nombre en el carrito, descripción, precio, favorito, foto del combinado, texto, bebida, descripción de la bebida, foto de la bebida]
 // Los mismos nombres y precios van en api/_menu.js
 const MENU={"Combinado":[
-["Combinado Chapala con chicha morada","Ceviche de perico con tallarines al ají amarillo y chicha morada.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"img/combinado.jpg","Con chicha morada","Chicha morada","Bien helada y refrescante, para acompañar tu combinado.","img/chicha.jpg"],
-["Combinado Chapala con maracuyá","Ceviche de perico con tallarines al ají amarillo y maracuyá.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"img/combinado.jpg","Con maracuyá","Maracuyá","Jugo de maracuyá, fresco y con su toque ácido.","img/maracuya.jpg"]]};
+["Combinado Chapala con chicha morada","Ceviche de perico con tallarines al ají amarillo y chicha morada.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"combinado.jpg","Con chicha morada","Chicha morada","Bien helada y refrescante, para acompañar tu combinado.","chicha.jpg"],
+["Combinado Chapala con maracuyá","Ceviche de perico con tallarines al ají amarillo y maracuyá.",PRECIO_COMBINADO+PRECIO_BEBIDA,1,"combinado.jpg","Con maracuyá","Maracuyá","Jugo de maracuyá, fresco y con su toque ácido.","maracuya.jpg"]]};
 const $=s=>document.querySelector(s);
 let cart={};try{cart=JSON.parse(localStorage.getItem("chapala-cart")||"{}")}catch(e){}
 const save=()=>{try{localStorage.setItem("chapala-cart",JSON.stringify(cart))}catch(e){}};
@@ -52,9 +52,7 @@ const open=()=>{L.classList.add("out");document.body.classList.remove("lock");tr
 if(seen){L.remove();document.body.classList.remove("lock")}else{
 const TIPS=["Un buen combinado se comparte entre dos.","Pide por WhatsApp y evita la cola.","El pescado se elige fresco cada mañana.","¿Eres de picante? Pide tu leche de tigre extra."];
 const f=$("#fill"),p=$("#pct"),t=$("#tip"),m=$("#msg");let v=0,i=0;t.textContent=TIPS[0];const ti=setInterval(()=>t.textContent=TIPS[++i%TIPS.length],1600);
-const iv=setInterval(()=>{v=Math.min(100,v+Math.random()*7+2);f.style.width=v+"%";p.textContent=Math.floor(v)+"%";if(v>=100){clearInterval(iv);m.textContent="¡Todo listo!";L.classList.add("ready")}},120);
-const go=()=>{if(L.classList.contains("ready")){clearInterval(ti);open()}};
-L.addEventListener("click",go);L.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")go()});L.focus()}}
+const iv=setInterval(()=>{v=Math.min(100,v+Math.random()*7+2);f.style.width=v+"%";p.textContent=Math.floor(v)+"%";if(v>=100){clearInterval(iv);m.textContent="¡Todo listo!";clearInterval(ti);setTimeout(open,350)}},120)}}
 
 /* ===== Extras ===== */
 const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
